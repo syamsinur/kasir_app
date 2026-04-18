@@ -78,18 +78,19 @@ async function printThermalReceipt(data) {
         receipt += "Pembayaran: " + data.order.payment_method.name + "\n";
         receipt += "Tanggal: " + data.date + "\n";
         receipt += "================================\n";
-        receipt += formatRow("Nama Barang", "Qty", "Harga") + "\n";
+        receipt += formatRow("Item", "Qty", "Harga", "Total") + "\n";
         receipt += "--------------------------------\n";
 
         let total = 0;
         data.items.forEach(item => {
-            receipt += formatRow(item.product.name, item.quantity, formatRibuan(item.product.price)) + "\n";
-            total += item.quantity * item.product.price;
+            let subtotalItem = item.quantity * item.product.price;
+            receipt += formatRow(item.product.name, item.quantity, formatRibuan(item.product.price), formatRibuan(subtotalItem)) + "\n";
+            total += subtotalItem;
         });
 
         receipt += "--------------------------------\n";
         receipt += formatRow("Total", "", formatRibuan(total)) + "\n";
-        receipt += formatRow("Nominal Bayar", "", formatRibuan(data.order.cash_received)) + "\n";
+        receipt += formatRow("Bayar", "", formatRibuan(data.order.cash_received)) + "\n";
         receipt += formatRow("Kembalian", "", formatRibuan(data.order.change)) + "\n";
         receipt += "================================\n";
         receipt += "\x1B\x61\x01"; // Perataan Tengah
@@ -123,10 +124,11 @@ function formatRibuan(number) {
 }
 
 //  Fungsi untuk Format Teks agar Rapi
-function formatRow(name, qty, price) {
-    const nameWidth = 16,
-        qtyWidth = 6,
-        priceWidth = 10;
+function formatRow(name, qty, price, subtotal = "") {
+    const nameWidth = 12,
+        qtyWidth = 3,
+        priceWidth = 8,
+        subtotalWidth = 9;
     let nameLines = name.match(new RegExp('.{1,' + nameWidth + '}', 'g')) || [];
     let output = '';
 
@@ -137,7 +139,9 @@ function formatRow(name, qty, price) {
     let lastLine = nameLines[nameLines.length - 1].padEnd(nameWidth);
     qty = qty.toString().padStart(qtyWidth);
     price = price.toString().padStart(priceWidth);
-    output += lastLine + qty + price;
+    subtotal = subtotal.toString().padStart(subtotalWidth);
+
+    output += lastLine + qty + price + subtotal;
 
     return output;
 }
