@@ -78,13 +78,17 @@ async function printThermalReceipt(data) {
         receipt += "Pembayaran: " + data.order.payment_method.name + "\n";
         receipt += "Tanggal: " + data.date + "\n";
         receipt += "================================\n";
-        receipt += formatRow("Item", "Qty", "Harga", "Total") + "\n";
+        receipt += formatRow("Item", "Harga", "Total") + "\n";
         receipt += "--------------------------------\n";
 
         let total = 0;
         data.items.forEach(item => {
             let subtotalItem = item.quantity * item.product.price;
-            receipt += formatRow(item.product.name, item.quantity, formatRibuan(item.product.price), formatRibuan(subtotalItem)) + "\n";
+            receipt += formatRow(
+                item.product.name + "\n" + "X " + item.quantity, 
+                formatRibuan(item.product.price), 
+                formatRibuan(subtotalItem)
+            ) + "\n";
             total += subtotalItem;
         });
 
@@ -124,11 +128,10 @@ function formatRibuan(number) {
 }
 
 //  Fungsi untuk Format Teks agar Rapi
-function formatRow(name, qty, price, subtotal = "") {
-    const nameWidth = 12,
-        qtyWidth = 3,
-        priceWidth = 8,
-        subtotalWidth = 9;
+function formatRow(name, price, subtotal = "") {
+    const nameWidth = 16,
+        priceWidth = 6,
+        subtotalWidth = 10;
     let nameLines = name.match(new RegExp('.{1,' + nameWidth + '}', 'g')) || [];
     let output = '';
 
@@ -137,11 +140,10 @@ function formatRow(name, qty, price, subtotal = "") {
     }
 
     let lastLine = nameLines[nameLines.length - 1].padEnd(nameWidth);
-    qty = qty.toString().padStart(qtyWidth);
     price = price.toString().padStart(priceWidth);
     subtotal = subtotal.toString().padStart(subtotalWidth);
 
-    output += lastLine + qty + price + subtotal;
+    output += lastLine + price + subtotal;
 
     return output;
 }
