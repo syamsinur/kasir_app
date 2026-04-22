@@ -169,26 +169,27 @@ class ProductResource extends Resource implements HasShieldPermissions
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-                Tables\Actions\BulkAction::make('printBarcodes')
-                    ->label('Cetak Barcode')
-                    ->button()
-                    ->icon('heroicon-o-printer')
-                    ->action(fn ($records) => self::generateBulkBarcode($records))
-                    ->color('success'),
+                // Tables\Actions\BulkAction::make('printBarcodes')
+                //     ->label('Cetak Barcode')
+                //     ->button()
+                //     ->icon('heroicon-o-printer')
+                //     ->action(fn ($records) => self::generateBulkBarcode($records))
+                //     ->color('success'),
 
                 // Tables\Actions\BulkAction::make('Reset Stok')
                 //     ->action(fn ($records) => $records->each->update(['stock' => 0]))
                 //     ->button()
                 //     ->color('info')
                 //     ->requiresConfirmation(),
-            ])
-            ->headerActions([
-                Tables\Actions\Action::make('printBarcodes')
-                    ->label('Cetak Barcode')
-                    ->icon('heroicon-o-printer')
-                    ->action(fn () => self::generateBulkBarcode(Product::all()))
-                    ->color('success'),
             ]);
+            // cetak barcode (nonaktif)
+            // ->headerActions([
+            //     Tables\Actions\Action::make('printBarcodes')
+            //         ->label('Cetak Barcode')
+            //         ->icon('heroicon-o-printer')
+            //         ->action(fn () => self::generateBulkBarcode(Product::all()))
+            //         ->color('success'),
+            // ])
     }
 
     public static function getRelations(): array

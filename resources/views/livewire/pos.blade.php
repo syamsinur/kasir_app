@@ -2,14 +2,15 @@
     <div class="md:col-span-2">
         <div class="flex flex-col md:flex-row  items-center justify-between mb-10">
             <input wire:model.live.debounce.300ms='search' type="text" placeholder="Cari nama atau sku produk ..."
-                class="w-full p-2 border rounded-full border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-            <input wire:model.live='barcode' type="text" placeholder="Scan dengan alat scanner ..." autofocus
+                class="w-full p-2 border rounded-full border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white" autofocus>
+            {{-- scanner (nonaktif) --}}
+            {{-- <input wire:model.live='barcode' type="text" placeholder="Scan dengan alat scanner ..." 
                 id="barcode"
                 class="w-full p-2 border rounded-full mt-2 md:mt-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white  md:ml-2">
             <x-filament::button x-data="" x-on:click="$dispatch('toggle-scanner')"
                 class="px-2 md:w-20 mt-2 md:mt-0 w-full h-12 bg-yellow-400 rounded-full md:ml-2">
                 <img src="{{ asset('images/qrcode-scan.svg') }}" class="w-8" />
-            </x-filament::button>
+            </x-filament::button> --}}
 
             {{-- MODAL SCAN CAMERA --}}
             <livewire:scanner-modal-component>
